@@ -5,6 +5,7 @@ import time
 import pathlib
 from io import open
 from dotenv import load_dotenv
+import argparse
 load_dotenv()
 username_instabot = os.getenv("USERNAME_INSTABOT")
 password_instabot = str(os.getenv("PASSWORD_INSTABOT"))
@@ -18,13 +19,18 @@ try:
         posted_pic_list = f.read().splitlines()
 except Exception:
     posted_pic_list = []
-second_timeout = 0  # количество секунд при задержке
 minutes_timout = 30  # количество минут при задержке
-hours_timeout = 0  # количество часов при задержке
-timeout = (hours_timeout * 60 * 60) + (minutes_timout * 60) + second_timeout  # таймаут для картинки.
+timeout = minutes_timout * 60
 
 bot = Bot()
 bot.login(username=username_instabot, password=password_instabot, use_cookie=False)
+
+parser = argparse.ArgumentParser(
+    description='автоматически загружаем фоточки в инстаграм'
+)
+parser.add_argument('--min', help='задержка в минутах')
+args = parser.parse_args()
+print(args.last_name)
 
 while True:
     folder_path = "./images"
