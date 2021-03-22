@@ -19,8 +19,7 @@ try:
         posted_pic_list = f.read().splitlines()
 except Exception:
     posted_pic_list = []
-minutes_timout = 30  # количество минут при задержке
-timeout = minutes_timout * 60
+minutes_timeout = 30
 
 bot = Bot()
 bot.login(username=username_instabot, password=password_instabot, use_cookie=False)
@@ -28,9 +27,11 @@ bot.login(username=username_instabot, password=password_instabot, use_cookie=Fal
 parser = argparse.ArgumentParser(
     description='автоматически загружаем фоточки в инстаграм'
 )
-parser.add_argument('--min', help='задержка в минутах')
+parser.add_argument('--minutes', help='задержка в минутах')
 args = parser.parse_args()
-print(args.last_name)
+if args.minutes != None: minutes_timeout = args.minutes
+
+timeout = minutes_timeout * 60
 
 while True:
     folder_path = "./images"
