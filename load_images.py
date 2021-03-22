@@ -2,10 +2,6 @@ from PIL import Image
 
 import requests
 import os
-from pprint import pprint
-
-img_filename = 'images/image.jpeg'
-
 
 def load_image(filepath, links):
     for link_id in range(len(links)):
