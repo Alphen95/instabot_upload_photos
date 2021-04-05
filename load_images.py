@@ -9,7 +9,7 @@ def load_image(filepath, links):
         link = links[link_id]
         response = requests.get(link)
         response.raise_for_status()
-        with open(os.path.splitext(filepath)[0] + str(link_id) + os.path.splitext(filepath)[1], 'wb') as file:
+        with open("{0}{1}{2}".format(os.path.splitext(filepath)[0], str(link_id), os.path.splitext(filepath)[1]), 'wb') as file:
             file.write(response.content)
 
 
@@ -29,9 +29,9 @@ def fetch_hubble_telescope_images(img_id):
     links = []
     if not(isinstance(full_response["image_files"], str)):
         for image_params in full_response["image_files"]:
-            links.append("https:" + image_params['file_url'])
+            links.append("https:{}".format( image_params['file_url']))
     else:
-        links = "https:" + image_params['file_url']
+        links = "https:{}".format( image_params['file_url'])
     return links
 
 
@@ -39,7 +39,7 @@ def split_links_to_filenames(img_id, links):
     filenames = []
     for link in links:
         path = urllib.parse.unquote(os.path.split(urllib.parse.urlsplit(link)[2])[1])
-        filenames.append(str(img_id) + "_" + path)
+        filenames.append("{0}{1}{2}".format(str(img_id), "_", path))
     return filenames
 
 
@@ -47,7 +47,7 @@ def resize_image(filepath):
     image = Image.open(filepath)
     image.thumbnail((1080, 768))
     image.convert('RGB')
-    image.save(os.path.splitext(filepath)[0] + ".jpg")
+    image.save("{}.jpg".format(os.path.splitext(filepath)[0]))
 
 
 def download_hublle_telescope_images(img_id):
@@ -55,7 +55,7 @@ def download_hublle_telescope_images(img_id):
     filenames = split_links_to_filenames(img_id, links)
     for link_id in range(len(links)):
         response = requests.get(links[link_id], verify=False)
-        with open("images/" + filenames[link_id], 'wb') as file:
+        with open("images/{}".format(filenames[link_id]), 'wb') as file:
             file.write(response.content)
 
 
@@ -75,9 +75,9 @@ if __name__ == "__main__":
 
     fetch_spacex_last_launch()
     download_hubble_telescope_images_by_collection_name("news")
-    files = os.listdir(str(os.getcwd()).replace("\\", "/") + "/images")
+    files = os.listdir("{0}{1}".format(str(os.getcwd()).replace("\\", "/"), "/images"))
     for img_file in files:
         try:
-            resize_image(str(os.getcwd()).replace("\\", "/") + "/images/" + img_file)
+            resize_image("{0}{1}{2}".format(str(os.getcwd()).replace("\\", "/"), "/images/", img_file))
         except:
             pass
