@@ -28,8 +28,7 @@ def fetch_hubble_telescope_images(img_id):
     full_response = response.json()
     links = []
     if not(isinstance(full_response["image_files"], str)):
-        for image_params in full_response["image_files"]:
-            links.append("https:{}".format( image_params['file_url']))
+        for image_params in full_response["image_files"]:links.append("https:{}".format( image_params['file_url']))
     else:
         links = "https:{}".format( image_params['file_url'])
     return links
