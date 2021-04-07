@@ -4,6 +4,8 @@ import requests
 import os
 import urllib
 
+folder_name = "images"
+
 def load_image(filepath, links):
     for link_id in range(len(links)):
         link = links[link_id]
@@ -13,12 +15,12 @@ def load_image(filepath, links):
             file.write(response.content)
 
 
-def fetch_spacex_last_launch():
+def fetch_spacex_last_launch(folder_name="images"):
     spacexdata_url = "https://api.spacexdata.com/v4/launches/latest"
     response = requests.get(spacexdata_url)
     response.raise_for_status()
     full_response = response.json()
-    load_image("images/image.jpeg", full_response["links"]["flickr"]["original"])
+    load_image("{}/image.jpeg".format(folder_name), full_response["links"]["flickr"]["original"])
 
 
 def fetch_hubble_telescope_images(img_id):
@@ -26,16 +28,12 @@ def fetch_hubble_telescope_images(img_id):
     response = requests.get(hubble_site_url)
     response.raise_for_status()
     full_response = response.json()
-<<<<<<< HEAD
-    links = "https:{}".format( image_params['file_url'])
-=======
+    print(full_response)
     links = []
     if not(isinstance(full_response["image_files"], str)):
-        for image_params in full_response["image_files"]:
-            links.append("https:{}".format( image_params['file_url']))
+        links.append("https:{}".format( full_response["image_files"][0]['file_url']))
     else:
-        links = "https:{}".format( image_params['file_url'])
->>>>>>> parent of 1fd8dd8 (Update load_images.py)
+        links = "https:{}".format( full_response['file_url'])
     return links
 
 
@@ -54,34 +52,34 @@ def resize_image(filepath):
     image.save("{}.jpg".format(os.path.splitext(filepath)[0]))
 
 
-def download_hublle_telescope_images(img_id):
+def download_hublle_telescope_images(img_id,folder_name="images"):
     links = fetch_hubble_telescope_images(img_id)
     filenames = split_links_to_filenames(img_id, links)
     for link_id in range(len(links)):
         response = requests.get(links[link_id], verify=False)
-        with open("images/{}".format(filenames[link_id]), 'wb') as file:
+        with open("{0}/{1}".format(folder_name,filenames[link_id]), 'wb') as file:
             file.write(response.content)
 
 
-def download_hubble_telescope_images_by_collection_name(collection_name):
+def download_hubble_telescope_images_by_collection_name(collection_name,folder_name="imgaes"):
     hubble_site_url = "http://hubblesite.org/api/v3/images/{}".format(collection_name)
     response = requests.get(hubble_site_url)
     response.raise_for_status()
     full_response = response.json()
     image_ids = []
     for image_params in full_response:
-        download_hublle_telescope_images(image_params['id'])
+        download_hublle_telescope_images(image_params['id'],folder_name)
 
 
 if __name__ == "__main__":
-    if not(os.path.exists("images")):
-        os.mkdir("images")
+    try:os.makedirs(folder_name)
+    except:pass
 
-    fetch_spacex_last_launch()
-    download_hubble_telescope_images_by_collection_name("news")
-    files = os.listdir("{0}{1}".format(str(os.getcwd()).replace("\\", "/"), "/images"))
+    fetch_spacex_last_launch(folder_name)
+    download_hubble_telescope_images_by_collection_name("news",folder_name)
+    files = os.listdir("{0}{1}".format(str(os.getcwd()).replace("\\", "/"), folder_name))
     for img_file in files:
         try:
-            resize_image("{0}{1}{2}".format(str(os.getcwd()).replace("\\", "/"), "/images/", img_file))
+            resize_image("{0}{1}{2}".format(str(os.getcwd()).replace("\\", "/"), folder_name, img_file))
         except:
             pass
