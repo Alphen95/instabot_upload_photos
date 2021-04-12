@@ -3,6 +3,8 @@ from PIL import Image
 import requests
 import os
 import urllib
+import pathlib
+import platform
 
 folder_name = "images"
 
@@ -20,7 +22,8 @@ def fetch_spacex_last_launch(folder_name="images"):
     response = requests.get(spacexdata_url)
     response.raise_for_status()
     full_response = response.json()
-    load_image("{}/image.jpeg".format(folder_name), full_response["links"]["flickr"]["original"])
+    path = pathlib.PureWindowsPath("{0}/{1}".format(folder_name,filenames[link_id])) if platform.system == "Windows" else "{0}/{1}".format(folder_name,"image.jpeg")
+    load_image(path.format(folder_name), full_response["links"]["flickr"]["original"])
 
 
 def fetch_hubble_telescope_images(img_id):
@@ -57,7 +60,8 @@ def download_hublle_telescope_images(img_id,folder_name="images"):
     filenames = split_links_to_filenames(img_id, links)
     for link_id in range(len(links)):
         response = requests.get(links[link_id], verify=False)
-        with open("{0}/{1}".format(folder_name,filenames[link_id]), 'wb') as file:
+        path = pathlib.PureWindowsPath("{0}/{1}".format(folder_name,filenames[link_id])) if platform.system == "Windows" else "{0}/{1}".format(folder_name,filenames[link_id])
+        with open(path, 'wb') as file:
             file.write(response.content)
 
 
@@ -77,9 +81,9 @@ if __name__ == "__main__":
 
     fetch_spacex_last_launch(folder_name)
     download_hubble_telescope_images_by_collection_name("news",folder_name)
-    files = os.listdir("{0}{1}".format(str(os.getcwd()).replace("\\", "/"), folder_name))
+    files = os.listdir("{0}{1}".format(str(pathlib.Path(__file__).parent.absolute()), folder_name))
     for img_file in files:
         try:
-            resize_image("{0}{1}{2}".format(str(os.getcwd()).replace("\\", "/"), folder_name, img_file))
+            resize_image(pathlib.PureWindowsPath("{0}/{1}/{2}".format(str(pathlib.Path(__file__).parent.absolute()),folder_name,img_file)) if platform.system == "Windows" else "{0}/{1}/{2}".format(str(pathlib.Path(__file__).parent.absolute()),folder_name,img_file))
         except:
             pass
