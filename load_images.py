@@ -85,5 +85,4 @@ if __name__ == "__main__":
     for img_file in files:
         try:
             resize_image(pathlib.PureWindowsPath("{0}/{1}/{2}".format(str(pathlib.Path(__file__).parent.absolute()),folder_name,img_file)) if platform.system == "Windows" else "{0}/{1}/{2}".format(str(pathlib.Path(__file__).parent.absolute()),folder_name,img_file))
-        except:
-            pass
+        except:pass
