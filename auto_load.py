@@ -28,10 +28,10 @@ if __name__ == "__main__":
     password_instabot = str(os.getenv("PASSWORD_INSTABOT"))
     #первоисточник не удалось найти. это просто скоммунизденный код откуда-то.
     os.chdir(str(pathlib.Path(__file__).parent.absolute()).replace("\\", "/"))
-    posted_pic_list = []
+    posted_pics = []
     try:
         with open("pics.txt", "r", encoding="utf8") as f:
-            posted_pic_list = f.read().splitlines()
+            posted_pics = f.read().splitlines()
     except Exception:
         posted_pic_list = []
     minutes_timeout = 30
@@ -52,7 +52,7 @@ if __name__ == "__main__":
         pics = sorted(pics)
         try:
             for pic in pics:
-                if pic in posted_pic_list:
+                if pic in posted_pics:
                     continue
     
                 pic_name = join_image_path(pic)
