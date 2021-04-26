@@ -11,8 +11,7 @@ def load_image(filepath, links):
     for link_id, link in enumerate(links):
         response = requests.get(link)
         response.raise_for_status()
-        if os.path.splitext(filepath)[1] != "":ext = os.path.splitext(filepath)[1]
-        else: ext = ".jpg"
+        ext = os.path.splitext(filepath)[1] if os.path.splitext(filepath)[1] != "" else ext = ".jpg"
 
         with open("{0}{1}{2}".format(os.path.splitext(filepath)[0], str(link_id), ext), "wb") as file:
             file.write(response.content)
