@@ -32,7 +32,7 @@ if __name__ == "__main__":
     try:
         with open("pics.txt", "r", encoding="utf8") as f:
             posted_pics = f.read().splitlines()
-    except Exception:
+    except IOError: 
         posted_pics= []
     minutes_timeout = 30
     
