@@ -19,6 +19,9 @@ def make_bot(username,password):
     return bot
 
 if __name__ == "__main__":
+    os.makedirs("logs",exist_ok=True)
+    log_file = open(os.path.join("logs","log-{}.txt".format(str(datetime.datetime.now())[:-7])),"w+")
+    log_file.write("[INFO] program started, time: {}\n".format(str(datetime.datetime.now())[:-7]))    
     load_dotenv(".env")
     username_instabot = os.getenv("USERNAME_INSTABOT")
     password_instabot = str(os.getenv("PASSWORD_INSTABOT"))
@@ -53,7 +56,7 @@ if __name__ == "__main__":
     
                 pic_name = join_image_path(pic)
     
-                print("upload: " + pic_name)
+                log_file.write("[INFO] upload: {}/n".format(pic_name,str(datetime.datetime.now())[:-7]))
     
                 description_file = "{0}/{1}.txt".format(folder_path,pic_name)
     
@@ -75,5 +78,5 @@ if __name__ == "__main__":
                 time.sleep(timeout)
     
         except Exception as e: #перехват ошибок и вывод их в консоль. 
-            print(str(e))
+            log_file.write("[ERROR] exception: {0} time: {1}".format(str(e),str(datetime.datetime.now())[:-7]))
         time.sleep(60)

@@ -3,3 +3,6 @@
 /images
 /config
 pics.txt
+/logs
+/logs/*.txt
+*.txt
