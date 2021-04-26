@@ -9,7 +9,6 @@ import platform
 
 def load_image(filepath, links):
     for link_id, link in enumerate(links):
-        link = links[link_id]
         response = requests.get(link)
         response.raise_for_status()
         if os.path.splitext(filepath)[1] != "":ext = os.path.splitext(filepath)[1]
@@ -45,7 +44,7 @@ def split_links_to_filenames(img_id, links):
     filenames = []
     for link in links:
         path = urllib.parse.unquote(os.path.split(urllib.parse.urlsplit(link)[2])[1])
-        filenames.append("{0}{1}{2}".format(str(img_id), "_", path))
+        filenames.append("{0}{1}{2}".format(img_id, "_", path))
     return filenames
 
 
