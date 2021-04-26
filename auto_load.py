@@ -1,3 +1,4 @@
+#где я достал этот код?.....
 import glob
 import os
 import sys
@@ -14,13 +15,14 @@ def join_image_path(pic_filename):
 
 def make_bot(username,password):
     bot = Bot()
-    bot.login(username=username, password=password, use_cookie=False)    
+    bot.login(username=username, password=password, use_cookie=False)
+    return bot
 
 if __name__ == "__main__":
-    load_dotenv()
+    load_dotenv(".env")
     username_instabot = os.getenv("USERNAME_INSTABOT")
     password_instabot = str(os.getenv("PASSWORD_INSTABOT"))
-    
+    #первоисточник не удалось найти. это просто скоммунизденный код откуда-то.
     os.chdir(str(pathlib.Path(__file__).parent.absolute()).replace("\\", "/"))
     posted_pic_list = []
     try:
@@ -39,7 +41,7 @@ if __name__ == "__main__":
     
     timeout = minutes_timeout * 60
     
-    
+    make_bot(username_instabot,password_instabot)
     while True:
         folder_path = "./images"
         pics = glob.glob(folder_path + "/*.jpg")
@@ -49,7 +51,7 @@ if __name__ == "__main__":
                 if pic in posted_pic_list:
                     continue
     
-                
+                pic_name = join_image_path(pic)
     
                 print("upload: " + pic_name)
     
@@ -72,6 +74,6 @@ if __name__ == "__main__":
     
                 time.sleep(timeout)
     
-        except Exception as e:
+        except Exception as e: #перехват ошибок и вывод их в консоль. 
             print(str(e))
         time.sleep(60)
