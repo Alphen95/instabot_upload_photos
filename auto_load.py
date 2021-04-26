@@ -44,7 +44,7 @@ if __name__ == "__main__":
     make_bot(username_instabot,password_instabot)
     while True:
         folder_path = "./images"
-        pics = glob.glob(folder_path + "/*.jpg")
+        pics = glob.glob("{}/*.jpg".format(folder_path))
         pics = sorted(pics)
         try:
             for pic in pics:
@@ -55,7 +55,7 @@ if __name__ == "__main__":
     
                 print("upload: " + pic_name)
     
-                description_file = folder_path + "/" + pic_name + ".txt"
+                description_file = "{0}/{1}.txt".format(folder_path,pic_name)
     
                 if os.path.isfile(description_file):
                     with open(description_file, "r") as file:
