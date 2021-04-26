@@ -8,6 +8,7 @@ from io import open
 from dotenv import load_dotenv
 import argparse
 from instabot import Bot
+import datetime
 
 def join_image_path(pic_filename):
     pic_name = pic_filename[:-4].split("-")
