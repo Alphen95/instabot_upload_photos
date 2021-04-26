@@ -33,7 +33,7 @@ if __name__ == "__main__":
         with open("pics.txt", "r", encoding="utf8") as f:
             posted_pics = f.read().splitlines()
     except Exception:
-        posted_pic_list = []
+        posted_pics= []
     minutes_timeout = 30
     
     parser = argparse.ArgumentParser(
@@ -71,13 +71,13 @@ if __name__ == "__main__":
                 if bot.api.last_response.status_code != 200:
                     break
     
-                if pic not in posted_pic_list:
-                    posted_pic_list.append(pic)
+                if pic not in posted_pics:
+                    posted_pics.append(pic)
                     with open("pics.txt", "a", encoding="utf8") as f:
                         f.write(pic + "\n")
     
                 time.sleep(timeout)
     
-        except Exception as e: #перехват ошибок и вывод их в консоль. 
+        except Exception as e: #перехват ошибок и вывод их в консоль. без except Exception не обойтись.
             log_file.write("[ERROR] exception: {0} time: {1}".format(str(e),str(datetime.datetime.now())[:-7]))
         time.sleep(60)
