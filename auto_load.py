@@ -14,7 +14,7 @@ def join_image_path(pic_filename):
     pic_name = pic_filename[:-4].split("-")
     return "-".join(pic_name[1:])    
 
-def make_bot(username,password):
+def make_bot(username, password):
     bot = Bot()
     bot.login(username=username, password=password, use_cookie=False)
     return bot
@@ -34,14 +34,13 @@ if __name__ == "__main__":
             posted_pics = f.read().splitlines()
     except IOError: 
         posted_pics= []
-    minutes_timeout = 30
     
     parser = argparse.ArgumentParser(
         description='автоматически загружаем фоточки в инстаграм'
     )
     parser.add_argument('--minutes', help='задержка в минутах')
     args = parser.parse_args()
-    if args.minutes != None: minutes_timeout = args.minutes
+    minutes_timeout = args.minutes if args.minutes != None else 30
     
     timeout = minutes_timeout * 60
     
