@@ -1,4 +1,4 @@
-#где я достал этот код?.....
+#первоисточник: https://github.com/ohld/igbot/blob/master/examples/autopost/auto_post.py
 import glob
 import os
 import sys
@@ -26,7 +26,6 @@ if __name__ == "__main__":
     load_dotenv(".env")
     username_instabot = os.getenv("USERNAME_INSTABOT")
     password_instabot = str(os.getenv("PASSWORD_INSTABOT"))
-    #первоисточник не удалось найти. это просто скоммунизденный код откуда-то.
     os.chdir(str(pathlib.Path(__file__).parent.absolute()).replace("\\", "/"))
     posted_pics = []
     try:
