@@ -6,7 +6,6 @@ import urllib
 import pathlib
 import platform
 
-
 def load_image(filepath, links):
     for link_id, link in enumerate(links):
         response = requests.get(link)
@@ -85,4 +84,5 @@ if __name__ == "__main__":
     for img_file in files:
         try:
             resize_image(os.path.join(str(pathlib.Path(__file__).parent.absolute()), folder_name,img_file))
-        except:pass #здесь мы ловим неудачные картинки и просто баги в программе. если таковые будут - самбиттье их мне в Issues
+        except:
+            print("По неизвестной причине  файл {} был отбракован".format(img_file)) #здесь мы ловим неудачные картинки и просто баги в программе. если таковые будут - самбиттье их мне в Issues
