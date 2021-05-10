@@ -84,5 +84,5 @@ if __name__ == "__main__":
     for img_file in files:
         try:
             resize_image(os.path.join(str(pathlib.Path(__file__).parent.absolute()), folder_name,img_file))
-        except:
-            print("По неизвестной причине  файл  {} был отбракован".format(img_file)) #здесь мы ловим неудачные картинки и просто баги в программе. если таковые будут - самбиттье их мне в Issues
+        except Exception as error:
+            print(f'Файл {img_file} был отбракован, ошибка: \n {error}')
